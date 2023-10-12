@@ -2,6 +2,7 @@
 #ipmoprt ime na bibliotekata
 import math
 '''
+4
 puzel=2.60
 kukla=3
 meche=4.10
@@ -33,6 +34,7 @@ else:
     else:
         print("Not enough money!")'''
 '''
+1
 time1=int(input())
 time2=int(input())
 time3=int(input())
