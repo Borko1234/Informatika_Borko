@@ -11,7 +11,7 @@ P=2*math.pi*r
 print ('liceto e',lice,'P=',P)"""
 import random
 x=random.randrange(1,50)
-print('is it fuchable')
+print('is it fuckable')
 print(x)
 if(x<12):
     print ('if her age is on the clock she is ready for the cock')
