@@ -1,4 +1,4 @@
-#funkcii
+#funkci
 ''' random '''
 '''
 import random
