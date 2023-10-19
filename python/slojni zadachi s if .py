@@ -47,6 +47,14 @@ else:
     print(f'{minuti}:{sek}')
 '''
 
-n = int(input()) b = 0 if n<= 100:     b = 5 elif n > 100 and n <= 1000:     b = 0.2 * n elif n > 1000:     b = 0.1 * n if n % 2 == 0:     b += 1 elif n % 10 == 5:     b = b + 2 print(b) print(b + n)
+import math h = int(input())
+ m = int(input()) 
+if h==24 : h=0
+ if m<10 : m1=m%10
+ if m>44 : h1=h+1 m1 = abs(60 - (15 + m))
+ if h == 23 : h1 = 0 
+else : h1=h m1=m+15 
+if m1<10 : print(f'{h1}:0{m1}') 
+else : print(f'{h1}:{m1}')
 
 
