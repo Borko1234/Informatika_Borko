@@ -47,6 +47,6 @@ else:
     print(f'{minuti}:{sek}')
 '''
 
-
+n = int(input()) b = 0 if n<= 100:     b = 5 elif n > 100 and n <= 1000:     b = 0.2 * n elif n > 1000:     b = 0.1 * n if n % 2 == 0:     b += 1 elif n % 10 == 5:     b = b + 2 print(b) print(b + n)
 
 
