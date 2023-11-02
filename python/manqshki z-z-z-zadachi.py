@@ -26,3 +26,31 @@ else:
 
 
 
+
+
+
+
+
+
+
+
+
+import time
+bober='le bober'
+glasuvam=input('Za kogo glasuva ' )
+if (glasuvam=='vaneto' or glasuvam=='Vaneto'):
+    while True:
+        print('ti si debil')
+        time.sleep(1)
+elif(glasuvam=='vasko' or glasuvam=='Vasko'):
+    while True:
+        print('ti si m-m-m-mashina')
+        time.sleep(1)
+
+
+
+
+
+
+
+
