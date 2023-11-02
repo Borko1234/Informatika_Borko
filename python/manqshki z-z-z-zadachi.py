@@ -51,6 +51,18 @@ elif(glasuvam=='vasko' or glasuvam=='Vasko'):
 
 
 
+import time
+alik=input('Alik e ')
+while alik=='pedal':
+     print('hahaaha tup pedal q pak pomisli pak')
+     time.sleep(10)
+     alik = input('Alik e ')
+     if alik!='pedal':
+         print('Bravo m-m-m-m-mashino veche ne haresvash muje')
+
+
+
+
 
 
 
