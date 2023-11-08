@@ -21,6 +21,11 @@ import time
 time.sleep(3)
 shte spre za 3 sekundi
 '''
+'''
+import sys
+max= - sys.maxsize
+dava max 
+'''
 
 
 
