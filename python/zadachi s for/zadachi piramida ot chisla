@@ -1,0 +1,35 @@
+#2ra zadacha
+a=int(input())
+b=int(input())
+n=0
+k=0
+if(b>a):
+    print('b trqbva da e po malko ot b')
+    a=int(input())
+for num in range(b , a+1):
+    for num2 in range(b+1,a):
+        k = num % 10 + num % 1000 / 10 / 10 + num / 10000 % 10
+        n = num / 100 % 10 + num / 10000 % 10 + num / 100000
+        if (k == n):
+            print(num)
+
+
+variant 2
+
+
+
+a=int(input())
+b=int(input())
+n=0
+k=0
+if(a>b):
+    print('a trqbva da e po malko ot b')
+    a=int(input())
+for num in range(a , b):
+    k = num / 10 + num / 1000 // 10 // 10 + num // 10000 / 10
+    n = num // 100 / 10 + num // 10000 / 10 + num // 100000
+
+    if (k == n):
+        print(num)
+    else:
+        print('nqma izhod')
