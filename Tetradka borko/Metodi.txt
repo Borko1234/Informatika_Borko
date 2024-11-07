@@ -1,1 +1,81 @@
+Методи Дефиниране и използване
+1.Какво е метод
+-Именуван блок от код който може да бъде извикан на различни места.
+2.Защо използваме методи
+-поддръжка
+-организация
+-четимост
+-повторение
+-преизползваме
+3.Метод от тип Void
+-нищо не връща
+4.Деклариране и извикване
+а)
+-задаваме static 
+-пишем void или тип на данни
+-име 
+-в скоби поставяме параметри които ще ползваме (ако ще ползваме)
+б)
+-методите винаги се декларират в клас
+в)повикване
+-main
+-друг метод
+-рекурсия
+5.Методи с параметри
+-еднакъв тип
+-различен тип
+6.Ключова дума return
+-използваме при зададен тип данни
+7.Именуване на методи
+-ползваме гладоли 
+-отговарят на това какво прави този метод
+-да са CamelCase
+-да са смислени
 
+
+
+primerna zadacha
+
+using System;
+using System.Runtime.InteropServices;
+
+class zadacha
+{
+    static double add(double a,double b)
+    {
+        a=double.Parse(Console.ReadLine());
+        b=double.Parse(Console.ReadLine());
+        return a+b;
+    }
+    static double multiply(double a, double b)
+    {
+        a = double.Parse(Console.ReadLine());
+        b = double.Parse(Console.ReadLine());
+        return a*b;
+    }
+    static double substract(double a, double b)
+    {
+        a = double.Parse(Console.ReadLine());
+        b = double.Parse(Console.ReadLine());
+        return a - b;
+    }
+    static double divide(double a, double b)
+    {
+        a = double.Parse(Console.ReadLine());
+        b = double.Parse(Console.ReadLine());
+        if (b == 0) Console.WriteLine("Ne se deli na 0");
+        return a/b;
+    }
+    static void Main()
+    {
+        string c=Console.ReadLine();
+        double a=0;
+        double b=0;
+        if (c=="add") Console.WriteLine(add(a,b));
+        if (c=="multiply") Console.WriteLine(multiply(a,b));
+        if (c=="substract") Console.WriteLine(substract(a,b));
+        if(c=="divide") Console.WriteLine(divide(a,b));
+
+
+    }
+}
