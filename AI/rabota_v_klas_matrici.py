@@ -25,4 +25,24 @@ m1=np.array([[2,3,6],[7,8,1],[1,2,0]])
 m2=np.array([[1],[2],[0]])
 m3=np.array([[1],[0],[1]])
 print(m1@m2+3*m3)
+12
+m1=np.array([[2,11,0,1],[2,1,0,1]])
+m2=np.array([[1],[0],[-1],[2]])
+m3=np.array([[2],[1]])
+print(m1@m2+m3)
+13
+m1=np.array([[1,1],[1,2]])
+m2=np.array([[-1,1],[1,0]])
+print(2*m1+3*m2)
+14
+m1=np.array([[1,-1],[0,1]])
+m2=np.array([[3,2],[1,-1]])
+m3=np.array([[1,0],[1,-1]])
+print((2*m1)@m2+3*m3)
+15
+m1=np.array([[2,1],[3,0]])
+m2=np.array([[2],[1]])
+m3=np.array([[1],[0],[3]])
+print(m1@m2+m3)
+//ima greshka
 '''
