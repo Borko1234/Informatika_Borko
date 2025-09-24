@@ -1,12 +1,40 @@
-Ще ви бъде даден списък от числа и низ. За всеки елемент трябва да съберете неговите цифри, за да получите определен индекс от низа. Ако индексът е по-голям от дължината, започнете да броите от самото начало (така винаги ще има валиден индекс). След като вземете елемента, го премахнете от низа. Така за следващият индекс, низа ще бъде с един символ по-малко.
-Примери
-Вход	Изход
-9992 562 8933
-This is some message for you	hey
-Насоки
-1.	Прочетете списъка от числа.
-2.	Прочетете низа.
-3.	Създайте for-цикъл, за да обходите всеки елемент в списъка.
-4.	За всяко число, съберете цифрите му и ги използвайте, за да извлечете символ от низа.
-5.	Променете низа, като премахнете използвания символ.
-6.	Отпечатайте низа.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        List<int> numbers = Console.ReadLine().Split().Select(int.Parse).ToList();
+        string text = Console.ReadLine();
+        
+        // Отпечатваме оригиналния списък (това липсваше)
+        Console.WriteLine(string.Join(" ", numbers));
+        
+        string result = "";
+        
+        foreach (int number in numbers)
+        {
+            if (text.Length == 0)
+            {
+                Console.WriteLine("Invalid index");
+                return;
+            }
+            
+            int sum = 0;
+            int temp = number;
+            while (temp > 0)
+            {
+                sum += temp % 10;
+                temp /= 10;
+            }
+            
+            int index = sum % text.Length;
+            result += text[index];
+            text = text.Remove(index, 1);
+        }
+        
+        Console.WriteLine(result);
+    }
+}
