@@ -1,0 +1,23 @@
+
+•	На следващите редове ще получите редиците
+Примери
+Вход	Изход	Обяснения
+4
+Peter
+Maria
+Katya
+Todor	1032
+1071
+1168
+1532	Peter = 1071
+Maria = 1532
+Katya = 1032
+Todor = 1168
+3
+Sofia
+London
+Washington	1396
+1601
+3202	Sofia = 1601
+London = 1396
+Washington = 3202
