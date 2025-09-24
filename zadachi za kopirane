@@ -1,42 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+4.	Списък с промени
+Напишете програма, която да чете списък от числа от конзолата и команди, с който да се манипулира списъкът. Вашата програма приема следните команди:
+•	Delete {елемент} – изтрийте всички числа в списъка, които са равни дадения елемент.
+•	Insert {елемент} {позиция} – добавете елемент на определена позиция.
+Програмата спира, когато се въведе командата "end". Принтирайте всички числа, разделени с интервали.
+Примери
+Вход	Изход
+1 2 3 4 5 5 5 6
+Delete 5
+Insert 10 1
+Delete 5
+end	1 10 2 3 4 6
 
-class Program
-{
-    static void Main()
-    {
-        List<int> times = Console.ReadLine().Split().Select(int.Parse).ToList();
-        int middle = times.Count / 2;
-        
-        double leftTime = 0;
-        double rightTime = 0;
-        
-        for (int i = 0; i < middle; i++)
-        {
-            leftTime += times[i];
-            if (times[i] == 0)
-            {
-                leftTime *= 0.8;
-            }
-        }
-        
-        for (int i = times.Count - 1; i > middle; i--)
-        {
-            rightTime += times[i];
-            if (times[i] == 0)
-            {
-                rightTime *= 0.8;
-            }
-        }
-        
-        if (leftTime < rightTime)
-        {
-            Console.WriteLine($"The winner is left with total time: {leftTime:F1}");
-        }
-        else
-        {
-            Console.WriteLine($"The winner is right with total time: {rightTime:F1}");
-        }
-    }
-}
+20 12 4 319 21 31234 2 41 23 4
+Insert 50 2
+Insert 50 5
+Delete 4
+end	20 12 50 319 50 21 31234 2 41 23
+
