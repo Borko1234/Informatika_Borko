@@ -1,56 +1,97 @@
-Упражнения: Многомерни масиви
-Тествайте решението в Judge: https://judge.softuni.org/Contests/4157/04-Multidimentional-Arrays-Advanced
-1.	2x2 Квадрат
-Намерете броя на квадратите от еднакви букви с дължина 2x2 в дадена матрица.
-Вход
-•	На първия ред ще ви бъде даден броя на редовете и броя на колоните - измеренията на матриците
-•	На следващите редове ще ви бъдат дадени редовете на матриците.
-Изход
-•	Трябва да отпечатате броя на еднаквите 2x2 квадрати от матрицата.
-Примери
-Вход	Изход	Обяснения
-3 4
-A B B D
-E B B B
-I J B B	2	Две 2x2 квадрата с еднакви клетки:
-A B B D	A B B D
-E B B B	E B B B
-I J B B	I J B B
-2 2
-a b
-c d	0	Няма съществуващи 2x2 квадрата с еднакви клетки.
-Насоки
-1.	Прочетете броя на редовете и колоните на матрицата от първия ред.
-2.	Създайте променлива, чрез която ще броите броя на 2x2 квадратите с еднакви елементи.
-3.	Създайте двумерен масив със съответните редове и колони.
-4.	Прочетете редовете на матрицата. 
-5.	Създайте for-цикли, за да обходите всеки елемент в матрицата, с изключение на последния ред и последната колона.
-6.	Във втория for-цикъл създайте 4 променливи – topLeft със стойност matrix[i, j], topRight със стойност matrix[i, j + 1], bottomLeft със стойност matrix[i + 1, j] и bottomRight със стойност matrix[i + 1, j + 1].
-7.	След това проверете дали тези променливи са еднакви. Ако е така, увеличете стойността на броя на 2x2 квадратите с еднакви елементи с 1.
-8.	Накрая отпечатайте броя на 2x2 квадратите с еднакви елементи.
-2.	Максимална сума 3x3
-Напишете програма, която чете правоъгълна матрица с размери N и M. Трябва да намерите квадрата с най-голяма сума, с размери 3x3.
-Вход
-•	На първия ред ще получите N реда и M колони
-•	На следващите N реда ще получите редовете на матрицата
-Изход
-•	Отпечатайте елементите на квадрата от матрицата с дължина 3x3 и тяхната сума.
-Примери
-Вход	Матрица	Изход
-4 5
-1 5 5 2 4
-2 1 4 14 3
-3 7 11 2 8
-4 8 12 16 4	 	Sum = 75
-1 4 14
-7 11 2
-8 12 16
-Насоки
-1.	Прочетете броя на редовете и на колоните на матрицата.
-2.	Създайте матрица и след това я прочетете.
-3.	Създайте променлива maxSum, в която ще съхранявате максималната сума, startRow, в която ще съхранявате индекса на първия ред на квадрата -1, и startCol, в която ще съхранявате индекса на първата колона на квадрата -1. 
-4.	Създайте for-цикъл, който ще итерира докато брояча му е по-малък от броя на редовете на матрицата -2.
-5.	След това в него създайте още един for-цикъл, който ще итерира докато брояча му е по-малък от броя на колоните на матрицата -2.
-6.	В цикъла намерете сумата на квадрата.
-7.	Ако тя е по-голяма от maxSum, задайте стойност на maxSum сумата на квадрата и запазете позицията на квадрата в променливите startRow и startCol.
-8.	Накрая отпечатайте сумата на квадрата и след това квадрата.
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int[] dimensions = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        int rows = dimensions[0];
+        int cols = dimensions[1];
+        
+        char[,] matrix = new char[rows, cols];
+        
+        for (int i = 0; i < rows; i++)
+        {
+            char[] row = Console.ReadLine().Split().Select(char.Parse).ToArray();
+            for (int j = 0; j < cols; j++)
+            {
+                matrix[i, j] = row[j];
+            }
+        }
+        
+        int count = 0;
+        
+        for (int i = 0; i < rows - 1; i++)
+        {
+            for (int j = 0; j < cols - 1; j++)
+            {
+                char topLeft = matrix[i, j];
+                char topRight = matrix[i, j + 1];
+                char bottomLeft = matrix[i + 1, j];
+                char bottomRight = matrix[i + 1, j + 1];
+                
+                if (topLeft == topRight && topLeft == bottomLeft && topLeft == bottomRight)
+                {
+                    count++;
+                }
+            }
+        }
+        
+        Console.WriteLine(count);
+    }
+}
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        int[] dimensions = Console.ReadLine().Split().Select(int.Parse).ToArray();
+        int rows = dimensions[0];
+        int cols = dimensions[1];
+        
+        int[,] matrix = new int[rows, cols];
+        
+        for (int i = 0; i < rows; i++)
+        {
+            int[] row = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            for (int j = 0; j < cols; j++)
+            {
+                matrix[i, j] = row[j];
+            }
+        }
+        
+        int maxSum = int.MinValue;
+        int startRow = 0;
+        int startCol = 0;
+        
+        for (int i = 0; i < rows - 2; i++)
+        {
+            for (int j = 0; j < cols - 2; j++)
+            {
+                int sum = matrix[i, j] + matrix[i, j + 1] + matrix[i, j + 2] +
+                         matrix[i + 1, j] + matrix[i + 1, j + 1] + matrix[i + 1, j + 2] +
+                         matrix[i + 2, j] + matrix[i + 2, j + 1] + matrix[i + 2, j + 2];
+                
+                if (sum > maxSum)
+                {
+                    maxSum = sum;
+                    startRow = i;
+                    startCol = j;
+                }
+            }
+        }
+        
+        Console.WriteLine($"Sum = {maxSum}");
+        for (int i = startRow; i < startRow + 3; i++)
+        {
+            for (int j = startCol; j < startCol + 3; j++)
+            {
+                Console.Write(matrix[i, j] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
