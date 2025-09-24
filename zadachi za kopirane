@@ -41,3 +41,103 @@ UtfoSi
 niSoft
 foSinU
 tUniSo
+
+
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string[] dimensions = Console.ReadLine().Split();
+        int rows = int.Parse(dimensions[0]);
+        int cols = int.Parse(dimensions[1]);
+        
+        char[,] matrix = new char[rows, cols];
+        
+        for (int i = 0; i < rows; i++)
+        {
+            string[] row = Console.ReadLine().Split();
+            for (int j = 0; j < cols; j++)
+            {
+                matrix[i, j] = char.Parse(row[j]);
+            }
+        }
+        
+        int count = 0;
+        
+        for (int i = 0; i < rows - 1; i++)
+        {
+            for (int j = 0; j < cols - 1; j++)
+            {
+                if (matrix[i, j] == matrix[i, j + 1] && 
+                    matrix[i, j] == matrix[i + 1, j] && 
+                    matrix[i, j] == matrix[i + 1, j + 1])
+                {
+                    count++;
+                }
+            }
+        }
+        
+        Console.WriteLine(count);
+    }
+}
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string[] dimensions = Console.ReadLine().Split();
+        int rows = int.Parse(dimensions[0]);
+        int cols = int.Parse(dimensions[1]);
+        
+        int[,] matrix = new int[rows, cols];
+        
+        for (int i = 0; i < rows; i++)
+        {
+            string[] row = Console.ReadLine().Split();
+            for (int j = 0; j < cols; j++)
+            {
+                matrix[i, j] = int.Parse(row[j]);
+            }
+        }
+        
+        int maxSum = int.MinValue;
+        int startRow = 0;
+        int startCol = 0;
+        
+        for (int i = 0; i <= rows - 3; i++)
+        {
+            for (int j = 0; j <= cols - 3; j++)
+            {
+                int currentSum = 0;
+                for (int k = 0; k < 3; k++)
+                {
+                    for (int l = 0; l < 3; l++)
+                    {
+                        currentSum += matrix[i + k, j + l];
+                    }
+                }
+                
+                if (currentSum > maxSum)
+                {
+                    maxSum = currentSum;
+                    startRow = i;
+                    startCol = j;
+                }
+            }
+        }
+        
+        Console.WriteLine($"Sum = {maxSum}");
+        for (int i = startRow; i < startRow + 3; i++)
+        {
+            for (int j = startCol; j < startCol + 3; j++)
+            {
+                Console.Write(matrix[i, j] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
