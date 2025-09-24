@@ -1,20 +1,36 @@
-1 23 29 18 43 21 20
-Add 5
-Remove 5
-Shift left 3
-Shift left 1
-End
-Expected output:
-1
-43 20 5 1 23 29 18
-Your output:
-1
-43 20 5 1 23 29 18
-2
-​
-1
-1 23 29 18 43 21 20
-2
-Invalid index
-3
-​
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        List<int> numbers = Console.ReadLine().Split().Select(int.Parse).ToList();
+        string text = Console.ReadLine();
+        string result = "";
+        
+        foreach (int number in numbers)
+        {
+            // Сумираме цифрите на числото
+            int sum = 0;
+            int temp = number;
+            while (temp > 0)
+            {
+                sum += temp % 10;
+                temp /= 10;
+            }
+            
+            // Намираме индекса (ако е по-голям от дължината, започваме отначало)
+            int index = sum % text.Length;
+            
+            // Добавяме символа към резултата
+            result += text[index];
+            
+            // Премахваме символа от текста
+            text = text.Remove(index, 1);
+        }
+        
+        Console.WriteLine(result);
+    }
+}
