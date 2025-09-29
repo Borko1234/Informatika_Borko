@@ -1,37 +1,53 @@
-1.	Периодична таблица
-Напишете програма, която съдържа уникални елементи. На първия ред ще получите числото n. На следващите n реда ще получите химични съединения, разделени с интервал. Вашата задача е да отпечатате уникалните елементи в азбучен ред:
-Примери
-Вход	Изход	Вход	Изход
-4
-Ce O
-Mo O Ce
-Ee
-Mo	Ce Ee Mo O	3
-Ge Ch O Ne
-Nb Mo Tc
-O Ne	Ch Ge Mo Nb Ne O Tc
-Насоки
-1.	Прочетете броя на химичните съединения.
-2.	Създайте сортиран сет от низове, за да съхранявате уникалните имена като ги запазите сортирани.
-3.	Създайте for-цикъл, за да прочетете и след това да добавите всички химични съединения.
-4.	 Накрая отпечатайте всички елементи.
+using System;
+using System.Collections.Generic;
 
-2.	Четни брой пъти
-Напишете програма, която отпечатва число, което се повтаря четни пъти. На първия ред ще получите n - броя на числата, които ще получите на следващите редове. Гарантирано е, че само едно число ще се появи четен брой пъти. Вашата задача е да го намерите и да го отпечатате.
-Примери
-Вход	Изход	Вход	Изход
-3
-2
--1
-2	2	5
-1
-2
-3
-1
-5
-	1
-Насоки
-1.	Прочетете броя на числата.
-2.	Създайте речник, чрез който ще съхранявате броя на срещаните числа.
-3.	Създайте for-цикъл, за да прочетете и добавите числата в речника като при всяко срещане на число увеличете срещането му с 1.
-4.	Накрая създайте foreach-цикъл, за да обходите всички елементи в речника и да отпечатате числото, което се среща четен брой пъти.
+class Program
+{
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        SortedSet<string> elements = new SortedSet<string>();
+
+        for (int i = 0; i < n; i++)
+        {
+            string[] compounds = Console.ReadLine().Split();
+            foreach (string el in compounds)
+            {
+                elements.Add(el);
+            }
+        }
+
+        Console.WriteLine(string.Join(" ", elements));
+    }
+}
+
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        Dictionary<int, int> counts = new Dictionary<int, int>();
+
+        for (int i = 0; i < n; i++)
+        {
+            int num = int.Parse(Console.ReadLine());
+            if (!counts.ContainsKey(num))
+            {
+                counts[num] = 0;
+            }
+            counts[num]++;
+        }
+
+        foreach (var kvp in counts)
+        {
+            if (kvp.Value % 2 == 0)
+            {
+                Console.WriteLine(kvp.Key);
+                break;
+            }
+        }
+    }
+}
