@@ -1,0 +1,15 @@
+1.Opredelenie: posledovatelnost ot baitove izpolzwana za prenos na danni ot edno mqsto na drugo
+2.Harakteristiki
+  dannite se predawat posledovatelno
+  dostuput e posledovatelen
+3. Prilojeniq na potoci
+  chetene i zapis vuv failove
+  prenos na informatika po mreja
+  rabota s operativna pamet na komputura
+4.Vidove spored posokata na prenos
+  vhodni: chetat
+  izhodni: izprashtat
+5.Vidove spored tipa na dannite
+  dvoichni: rabota s bitove (audio,snimki,video)
+  tekstovi: rabota s tekstovi danni
+  bufferni: izpolzvat buferi za uskorqvane na cheteneto
