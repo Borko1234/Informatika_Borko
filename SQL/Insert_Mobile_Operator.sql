@@ -1,9 +1,23 @@
 -- АКО БАЗАТА ОЩЕ Я НЯМА:
 -- CREATE DATABASE MobileOperatorDemo;
 -- GO
+USE master;
+GO
+
+IF DB_ID('MobileOperatorDemo') IS NOT NULL
+BEGIN
+    ALTER DATABASE MobileOperatorDemo SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE MobileOperatorDemo;
+END
+GO
+
+CREATE DATABASE MobileOperatorDemo;
+GO
 
 USE MobileOperatorDemo;
 GO
+
+
 
 ------------------------------------------------------------
 -- 0. Drop tables (по избор, ако искаш чист старт)
