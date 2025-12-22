@@ -1,4 +1,126 @@
-INSERT INTO Towns (Name) VALUES
+-- АКО БАЗАТА ОЩЕ Я НЯМА:
+-- CREATE DATABASE MobileOperatorDemo;
+-- GO
+
+USE MobileOperatorDemo;
+GO
+
+------------------------------------------------------------
+-- 0. Drop tables (по избор, ако искаш чист старт)
+------------------------------------------------------------
+IF OBJECT_ID('dbo.ContractAdditionalPackages', 'U') IS NOT NULL DROP TABLE ContractAdditionalPackages;
+IF OBJECT_ID('dbo.Contracts', 'U') IS NOT NULL DROP TABLE Contracts;
+IF OBJECT_ID('dbo.Customers', 'U') IS NOT NULL DROP TABLE Customers;
+IF OBJECT_ID('dbo.AdditionalPackages', 'U') IS NOT NULL DROP TABLE AdditionalPackages;
+IF OBJECT_ID('dbo.Employees', 'U') IS NOT NULL DROP TABLE Employees;
+IF OBJECT_ID('dbo.SubscriptionPlans', 'U') IS NOT NULL DROP TABLE SubscriptionPlans;
+IF OBJECT_ID('dbo.Towns', 'U') IS NOT NULL DROP TABLE Towns;
+GO
+
+------------------------------------------------------------
+-- 1. Towns
+------------------------------------------------------------
+CREATE TABLE Towns (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL
+);
+GO
+
+------------------------------------------------------------
+-- 2. SubscriptionPlans
+------------------------------------------------------------
+CREATE TABLE SubscriptionPlans (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(50),
+    Price DECIMAL(10,2),
+    IncludedMinutes INT,
+    IncludedMessages INT,
+    IncludedData INT
+);
+GO
+
+------------------------------------------------------------
+-- 3. Employees (както ти я беше дал)
+------------------------------------------------------------
+CREATE TABLE Employees (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    MiddleName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    EGN CHAR(10),
+    JobTitle NVARCHAR(50),
+    Salary DECIMAL(18,2),
+    HireDate DATE,
+    ManagerID INT NULL,
+    TownID INT NULL,
+    CONSTRAINT FK_Employees_Manager FOREIGN KEY (ManagerID) REFERENCES Employees(ID),
+    CONSTRAINT FK_Employees_Towns FOREIGN KEY (TownID) REFERENCES Towns(ID)
+);
+GO
+
+------------------------------------------------------------
+-- 4. Customers – извеждам я по твоите инсърти
+------------------------------------------------------------
+CREATE TABLE Customers (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    SubscriptionPlanID INT NOT NULL,
+    ContactNumber NVARCHAR(20),
+    TownID INT NOT NULL,
+    Address NVARCHAR(100),
+    CONSTRAINT FK_Customers_SubscriptionPlans FOREIGN KEY (SubscriptionPlanID) REFERENCES SubscriptionPlans(ID),
+    CONSTRAINT FK_Customers_Towns FOREIGN KEY (TownID) REFERENCES Towns(ID)
+);
+GO
+
+------------------------------------------------------------
+-- 5. Contracts – по твоя формат (Number, StartingDate, Duration, CustomerId)
+------------------------------------------------------------
+CREATE TABLE Contracts (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Number NVARCHAR(20) NOT NULL,
+    StartingDate DATE NOT NULL,
+    Duration INT NOT NULL,
+    CustomerId INT NOT NULL,
+    CONSTRAINT FK_Contracts_Customers FOREIGN KEY (CustomerId) REFERENCES Customers(ID)
+);
+GO
+
+------------------------------------------------------------
+-- 6. AdditionalPackages – по твоята структура
+------------------------------------------------------------
+CREATE TABLE AdditionalPackages (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(50) NOT NULL,
+    Description NVARCHAR(255),
+    Price DECIMAL(10,2) NOT NULL
+);
+GO
+
+------------------------------------------------------------
+-- 7. ContractAdditionalPackages – междинна таблица за M:N
+--    Тук използвам името, което ти БИ трябвало да си имал.
+--    Ако при теб е друго - сменяш го, но инсъртите ще останат същите.
+------------------------------------------------------------
+CREATE TABLE ContractAdditionalPackages (
+    ContractID INT NOT NULL,
+    AdditionalPackageID INT NOT NULL,
+    CONSTRAINT PK_ContractAdditionalPackages PRIMARY KEY (ContractID, AdditionalPackageID),
+    CONSTRAINT FK_CntrAddPk_Contracts FOREIGN KEY (ContractID) REFERENCES Contracts(ID),
+    CONSTRAINT FK_CntrAddPk_AdditionalPackages FOREIGN KEY (AdditionalPackageID) REFERENCES AdditionalPackages(ID)
+);
+GO
+
+/* =======================
+   INSERT-и НА ДАННИ
+   ======================= */
+
+------------------------------------------------------------
+-- Towns
+------------------------------------------------------------
+INSERT INTO Towns (Name)
+VALUES
 ('Blagoevgrad'),
 ('Burgas'),
 ('Varna'),
@@ -29,7 +151,31 @@ INSERT INTO Towns (Name) VALUES
 ('Yambol');
 GO
 
-INSERT INTO Employees (FirstName, MiddleName, LastName, EGN, JobTitle, Salary, HireDate, ManagerID, TownId) VALUES
+------------------------------------------------------------
+-- SubscriptionPlans
+------------------------------------------------------------
+INSERT INTO SubscriptionPlans (Name, Price, IncludedMinutes, IncludedMessages, IncludedData)
+VALUES
+('Start', 15.99, 200, 100, 200),
+('Osnoven', 25.99, 500, 200, 500),
+('Standarten', 35.99, 1000, 500, 1000),
+('Premium', 45.99, 1500, 1000, 15000),
+('Ultra', 55.99, 2000, 1500, 20000),
+('Neogranichen', 65.99, 50000, 50000, 50000),
+('Dostapen', 12.99, 1000, 1000, 1000),
+('Semeen', 60.99, 10000, 10000, 20000),
+('Business', 75.99, 3000, 2000, 50000),
+('Max', 90.99, 100000, 100000, 100000);
+GO
+
+------------------------------------------------------------
+-- Employees – fix за self FK: временно изключваме constraint-а
+------------------------------------------------------------
+ALTER TABLE Employees NOCHECK CONSTRAINT FK_Employees_Manager;
+GO
+
+INSERT INTO Employees (FirstName, MiddleName, LastName, EGN, JobTitle, Salary, HireDate, ManagerID, TownID)
+VALUES
 ('Ivan', 'Petrov', 'Dimitrov', '7001011234', 'CEO', 15000.00, '2001-01-01', NULL, NULL),
 ('Maria', 'Ivanova', 'Petrova', '9102025678', 'Sales Specialist', 3500.00, '2016-05-08', 7, 4),
 ('Georgi', 'K.', 'Kolev', '9203039012', 'Technician', 1500.00, '2018-03-01', 11, 5),
@@ -82,20 +228,14 @@ INSERT INTO Employees (FirstName, MiddleName, LastName, EGN, JobTitle, Salary, H
 ('Teodora', 'Vasileva', 'Hristova', '7008085678', 'Assistant Manager', 4000.00, '2002-02-27', 7, 3);
 GO
 
-INSERT INTO SubscriptionPlans (Name, Price, IncludedMinutes, IncludedMessages, IncludedData) VALUES
-('Start', 15.99, 200, 100, 200),
-('Osnoven', 25.99, 500, 200, 500),
-('Standarten', 35.99, 1000, 500, 1000),
-('Premium', 45.99, 1500, 1000, 15000),
-('Ultra', 55.99, 2000, 1500, 20000),
-('Neogranichen', 65.99, 50000, 50000, 50000),
-('Dostapen', 12.99, 1000, 1000, 1000),
-('Semeen', 60.99, 10000, 10000, 20000),
-('Business', 75.99, 3000, 2000, 50000),
-('Max', 90.99, 100000, 100000, 100000);
+ALTER TABLE Employees WITH CHECK CHECK CONSTRAINT FK_Employees_Manager;
 GO
 
-INSERT INTO Customers (FirstName, LastName, SubscriptionPlanID, ContactNumber, TownID, Address) VALUES
+------------------------------------------------------------
+-- Customers (1–100)
+------------------------------------------------------------
+INSERT INTO Customers (FirstName, LastName, SubscriptionPlanID, ContactNumber, TownID, Address)
+VALUES
 ('Ivan','Petrov',1,'0888874596',5,'ul. Vitosha 1'),
 ('Maria','Georgieva',3,'0897124588',10,'ul. Slavyanska 2'),
 ('Dimitar','Ivanov',2,'0877021467',1,'ul. Rakovski 3'),
@@ -144,7 +284,7 @@ INSERT INTO Customers (FirstName, LastName, SubscriptionPlanID, ContactNumber, T
 ('Viktor','Georgiev',4,'0879357241',5,'ul. Stefan Stambolov 46'),
 ('Elitsa','Dimitrova',6,'0889339978',12,'ul. Slivnitsa 47'),
 ('Lyubomir','Petrov',4,'0879009435',5,'ul. Levski 48'),
-('Rosen','Ivanov',3,'0855916358',20,'ul. Hristo Smirnenski 49'),
+('Rosen','Ivanов',3,'0855916358',20,'ul. Hristo Smirnenski 49'),
 ('Silvia','Georgieva',1,'0875648255',17,'ul. Tsar Simeon 50'),
 ('Vasilena','Petrova',5,'0885917364',15,'ul. Dobrich 51'),
 ('Petko','Kolev',2,'0895728960',22,'ul. Sofia 52'),
@@ -198,7 +338,11 @@ INSERT INTO Customers (FirstName, LastName, SubscriptionPlanID, ContactNumber, T
 ('Elena','Dimitrova',2,'0895010203',24,'ul. Bulgaria 100');
 GO
 
-INSERT INTO Contracts (Number, StartingDate, Duration, CustomerId) VALUES
+------------------------------------------------------------
+-- Contracts
+------------------------------------------------------------
+INSERT INTO Contracts (Number, StartingDate, Duration, CustomerId)
+VALUES
 ('000894','2021-01-01',12,1),
 ('015231','2022-12-01',6,2),
 ('001579','2022-03-21',24,3),
@@ -301,7 +445,11 @@ INSERT INTO Contracts (Number, StartingDate, Duration, CustomerId) VALUES
 ('001559','2023-09-15',24,100);
 GO
 
-INSERT INTO AdditionalPackages (Name, Description, Price) VALUES
+------------------------------------------------------------
+-- AdditionalPackages
+------------------------------------------------------------
+INSERT INTO AdditionalPackages (Name, Description, Price)
+VALUES
 ('+ Data', 'Additional 10000 MB of mobile data', 9.99),
 ('+ Minutes', 'Additional 2000 call minutes', 14.99),
 ('Roaming Pack', 'International roaming for calls and data', 19.99),
@@ -314,7 +462,12 @@ INSERT INTO AdditionalPackages (Name, Description, Price) VALUES
 ('Entertainment Pack', 'Movies and series streaming pack', 11.99);
 GO
 
-INSERT INTO CustomersAdditionalPackages (CustomerID, PackageID) VALUES
+------------------------------------------------------------
+-- ContractAdditionalPackages (връзки Contract – AdditionalPackage)
+-- Тук приемам, че идват по ред на ID-тата, както при теб.
+------------------------------------------------------------
+INSERT INTO ContractAdditionalPackages (ContractID, AdditionalPackageID)
+VALUES
 (1, 1),
 (1, 3),
 (1, 5),
